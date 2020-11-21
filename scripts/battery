@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Loop through all attached batteries.
+for battery in /sys/class/power_supply/BAT?
+do
+	# Get its remaining capacity and charge status.
+	capacity=$(cat "$battery"/capacity 2>/dev/null) || break
+    status=$(cat "$battery"/status 2>/dev/null) || break;
+
+    if [ "$status" = "Discharging" ]; then
+        if [ "$capacity" -ge "80" ]; then
+	        status=""
+        elif [ "$capacity" -lt "80" ] && [ "$capacity" -ge "60" ]; then
+	        status=""
+        elif [ "$capacity" -lt "60" ] && [ "$capacity" -ge "40" ]; then
+	        status=""
+        elif [ "$capacity" -lt "40" ] && [ "$capacity" -ge "20" ]; then
+	        status=""
+        else
+	        status=""
+        fi
+    else
+	    status=$(sed "s/[Nn]ot charging//;s/[Cc]harging/⚡/;s/[Uu]nknown/♻/;s/[Ff]ull//" "$battery"/status)
+    fi
+
+	printf "%s %s%% " "$status" "$capacity"
+done | sed 's/ *$//'

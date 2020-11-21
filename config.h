@@ -1,14 +1,14 @@
 //Modify this file to change what commands output to your statusbar, and recompile using the make command.
 //
 
-#define PATH(name) "/home/apex/scripts/statusbar/"#name
+#define PATH(name) "/home/apex/.config/dwmblocks/scripts/"#name
 
 static const Block blocks[] = {
 	/*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
 	{"",        PATH(wifi),           30,            0},
 	{"",        PATH(volume),         0,             10},
 	{"",        PATH(battery),        10,            0},
-	{"",        PATH(clock),          30,            0},
+	{"",        PATH(clock),          60,            0},
 	{"",        PATH(keylayout),      0,             9},
 };
 
